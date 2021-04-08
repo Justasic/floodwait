@@ -29,6 +29,11 @@ class RateLimit:
 		self.score *= self._magic
 		self.score += self.tokens * (1 - self._magic)
 
+	def check_score(self) -> float:
+		tmp = self.score * self._magic
+		tmp += self.tokens * (1 - self._magic)
+		return tmp
+
 	def ___idle_loop(self) -> None:
 		while True:
 			self._calc_score()
@@ -38,14 +43,15 @@ class RateLimit:
 
 	def CheckLimit(self) -> int:
 		self.tokens += 1
-		# self._calc_score()
+		return self.check_score()
 
 
 def main():
 
 	limit = RateLimit(timedelta(minutes=1), 1);
 	for i in range(10000):
-		limit.CheckLimit()
+		sl = limit.CheckLimit()
+		time.sleep(math.floor(sl))
 
 if __name__ == "__main__":
 	main()

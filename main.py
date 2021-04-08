@@ -26,11 +26,7 @@ class RateLimit:
 		self.idleloop.start()
 
 	def _calc_score(self) -> None:
-		tmp = self.score * self._magic
-		print(f"{self.score} *= {self._magic} == {tmp}")
 		self.score *= self._magic
-		tmp = self.score + (self.tokens * (1 - self._magic))
-		print(f"{self.score} += {self.tokens} * (1 - {self._magic}) == {tmp}")
 		self.score += self.tokens * (1 - self._magic)
 
 	def ___idle_loop(self) -> None:
